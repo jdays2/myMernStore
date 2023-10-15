@@ -4,7 +4,8 @@ import {
 	Route,
 } from 'react-router-dom';
 import App from './App';
-import Home from './pages/Home';
+import { HomePage } from './pages/HomePage';
+import { ProductPage } from './pages/ProductPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -13,7 +14,11 @@ export const router = createBrowserRouter(
 			element={<App />}>
 			<Route
 				index="true"
-				element={<Home />}
+				element={<HomePage />}
+			/>
+			<Route
+				path="/product/:id"
+				element={<ProductPage />}
 			/>
 		</Route>,
 	),
