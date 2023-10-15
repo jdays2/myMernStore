@@ -1,18 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button, ListGroup, Card, Image } from 'react-bootstrap';
 
 import { Rating } from '../components/Rating';
-import products from '../products';
+import { getProduct } from '../api/getProduct';
 
 export const ProductPage = () => {
+	const [prod, setProd] = useState({});
 	const { id } = useParams();
-
-	const prod = products.find((prod) => prod._id === +id);
 
 	useEffect(() => {
 		document.title = 'MERN | Product page';
+	}, []);
+
+	console.log(prod)
+
+	useEffect(() => {
+		const getData = async () => {
+			const products = await getProduct(id);
+			setProd(products);
+		};
+
+		getData();
 	}, []);
 
 	return (
@@ -54,14 +64,14 @@ export const ProductPage = () => {
 							<ListGroup.Item>
 								<Row>
 									<Col>Price:</Col>
-									<Col>{prod.price}</Col>
+									<Col className='text-end'>{prod.price}</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Status:</Col>
-									<Col>
+									<Col className='text-end'>
 										{prod.countInStock > 0 ? 'In stock' : 'Out of stock'}
 									</Col>
 								</Row>
