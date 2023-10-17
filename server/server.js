@@ -2,12 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
-
+import connectDB from './config/bd.js';
 import products from './data/products.js';
 const port = process.env.PORT || 8000;
 
+connectDB() //подключаемся в bd
+
 const app = express();
-app.use(cors())
+
+app.use(cors()) //добавляетм cors
 
 app.get('/api/products', (req, res) => {
   
