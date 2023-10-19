@@ -10,7 +10,6 @@ const products = [
 		countInStock: 10,
 		rating: 4.5,
 		numReviews: 12,
-		_id: '0',
 	},
 	{
 		name: 'iPhone 13 Pro 256GB Memory',
@@ -23,7 +22,6 @@ const products = [
 		countInStock: 7,
 		rating: 4.0,
 		numReviews: 8,
-		_id: '1',
 	},
 	{
 		name: 'Cannon EOS 80D DSLR Camera',
@@ -36,7 +34,6 @@ const products = [
 		countInStock: 5,
 		rating: 3,
 		numReviews: 12,
-		_id: '2',
 	},
 	{
 		name: 'Sony Playstation 5',
@@ -49,7 +46,6 @@ const products = [
 		countInStock: 11,
 		rating: 5,
 		numReviews: 12,
-		_id: '3',
 	},
 	{
 		name: 'Logitech G-Series Gaming Mouse',
@@ -62,7 +58,6 @@ const products = [
 		countInStock: 7,
 		rating: 3.5,
 		numReviews: 10,
-		_id: '4',
 	},
 	{
 		name: 'Amazon Echo Dot 3rd Generation',
@@ -75,7 +70,6 @@ const products = [
 		countInStock: 0,
 		rating: 4,
 		numReviews: 12,
-		_id: '5',
 	},
 ];
 
