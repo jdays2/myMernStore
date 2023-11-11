@@ -3,17 +3,20 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
 import connectDB from './config/bd.js';
-import productRoutes from './routes/productRoutes.js'
+import productRoutes from './routes/productRoutes.js';
+import { errorHandler, notFound } from './middleware/errorHandler.js';
 const port = process.env.PORT || 8000;
 
-connectDB() //подключаемся в bd
+connectDB(); //подключаемся в bd
 
 const app = express();
 
-app.use(cors()) //добавляетм cors
+app.use(cors()); //добавляетм cors
 
-app.use('/api/products', productRoutes)
+app.use('/api/products', productRoutes);
 
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
 	console.log(`Server is running on ${port} port`);
