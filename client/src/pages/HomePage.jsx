@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product.jsx';
 import { useGetProductsQuery } from '../redux/slices/productsApiSlice.js';
+import { Loader } from '../components/Loader.jsx';
 
 export const HomePage = () => {
 	const { data, error, isLoading } = useGetProductsQuery();
@@ -12,7 +13,7 @@ export const HomePage = () => {
 			<h1>Latest Products</h1>
 			<Row>
 				{isLoading ? (
-					<h2>Loading...</h2>
+						<Loader/>
 				) : error ? (
 					<div>{error?.data?.message || error.error}</div>
 				) : (
