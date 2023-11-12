@@ -7,6 +7,7 @@ import { Rating } from '../components/Rating';
 import { getProduct } from '../api/getProduct';
 import { useGetProductDetailsQuery } from '../redux/slices/productsApiSlice';
 import { Loader } from '../components/Loader';
+import { Message } from '../components/Message';
 
 export const ProductPage = () => {
 	const { id } = useParams();
@@ -27,7 +28,7 @@ export const ProductPage = () => {
 			{isLoading ? (
 				<Loader/>
 			) : error ? (
-				<div>{error?.data?.message || error.error}</div>
+				<Message>{error?.data?.message || error.error}</Message>
 			) : (
 				<>
 					<Row>
