@@ -5,11 +5,13 @@ import { Row, Col, Button, ListGroup, Card, Image } from 'react-bootstrap';
 
 import { Rating } from '../components/Rating';
 import { getProduct } from '../api/getProduct';
-import { useGetProductQuery } from '../redux/slices/productsApiSlice';
+import { useGetProductDetailsQuery } from '../redux/slices/productsApiSlice';
+import { Loader } from '../components/Loader';
+import { Message } from '../components/Message';
 
 export const ProductPage = () => {
 	const { id } = useParams();
-	const { data: prod, isLoading, error } = useGetProductQuery(id);
+	const { data: prod, isLoading, error } = useGetProductDetailsQuery(id);
 
 	useEffect(() => {
 		document.title = 'MERN | Product page';
@@ -17,17 +19,19 @@ export const ProductPage = () => {
 
 	return (
 		<>
+			<Link
+				to="/"
+				className="btn btn-light my-3">
+				Go Back
+			</Link>
 			{isLoading ? (
-				<h2>Loading...</h2>
+				<Loader />
 			) : error ? (
-				<div>{error?.data?.message || error.error}</div>
+				<Message variant="danger">
+					{error?.data?.message || error.error}
+				</Message>
 			) : (
 				<>
-					<Link
-						to="/"
-						className="btn btn-light my-3">
-						Go Back
-					</Link>
 					<Row>
 						<Col md={5}>
 							<Image
