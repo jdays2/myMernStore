@@ -19,16 +19,17 @@ export const ProductPage = () => {
 
 	return (
 		<>
-			
 			<Link
 				to="/"
 				className="btn btn-light my-3">
 				Go Back
 			</Link>
 			{isLoading ? (
-				<Loader/>
+				<Loader />
 			) : error ? (
-				<Message>{error?.data?.message || error.error}</Message>
+				<Message variant="danger">
+					{error?.data?.message || error.error}
+				</Message>
 			) : (
 				<>
 					<Row>

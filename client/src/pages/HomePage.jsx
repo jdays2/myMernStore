@@ -7,7 +7,6 @@ import { Message } from '../components/Message.jsx';
 
 export const HomePage = () => {
 	const { data, error, isLoading } = useGetProductsQuery();
-	console.log(useGetProductsQuery());
 
 	return (
 		<>
@@ -16,7 +15,7 @@ export const HomePage = () => {
 				{isLoading ? (
 					<Loader />
 				) : error ? (
-					<Message>{error?.data?.message || error.error}</Message>
+					<Message variant='danger'>{error?.data?.message || error.error}</Message>
 				) : (
 					data.map((item) => {
 						return (
