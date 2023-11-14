@@ -1,17 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { Row, Col, Button, ListGroup, Card, Image } from 'react-bootstrap';
+import {
+	Row,
+	Col,
+	Button,
+	ListGroup,
+	Card,
+	Image,
+	Form,
+} from 'react-bootstrap';
 
 import { Rating } from '../components/Rating';
-import { getProduct } from '../api/getProduct';
 import { useGetProductDetailsQuery } from '../redux/slices/productsApiSlice';
 import { Loader } from '../components/Loader';
 import { Message } from '../components/Message';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/slices/cartSlice';
 
 export const ProductPage = () => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const { id } = useParams();
+
 	const { data: prod, isLoading, error } = useGetProductDetailsQuery(id);
+	const [qty, setQty] = useState(1);
+
+	const addToCardHandler = () => {
+		const item = { ...prod, qty };
+		navigate('/cart');
+		dispatch(addToCart(item));
+	};
+
+	const qtyHandler = (e) => {
+		const data = Number(e.target.value);
+		setQty(data);
+	};
 
 	useEffect(() => {
 		document.title = 'MERN | Product page';
@@ -76,12 +100,36 @@ export const ProductPage = () => {
 											</Col>
 										</Row>
 									</ListGroup.Item>
+									{prod.countInStock > 0 && (
+										<ListGroup.Item>
+											<Row>
+												<Col>Qty</Col>
+												<Col>
+													<Form.Control
+														as="select"
+														value={qty}
+														onChange={qtyHandler}>
+														{[...Array(prod.countInStock).keys()].map((e) => {
+															return (
+																<option
+																	key={e + 1}
+																	value={e + 1}>
+																	{e + 1}
+																</option>
+															);
+														})}
+													</Form.Control>
+												</Col>
+											</Row>
+										</ListGroup.Item>
+									)}
 
 									<ListGroup.Item>
 										<Button
 											className="btn-block"
 											type="button"
-											disabled={prod.countInStock === 0}>
+											disabled={prod.countInStock === 0}
+											onClick={addToCardHandler}>
 											Add to card
 										</Button>
 									</ListGroup.Item>
