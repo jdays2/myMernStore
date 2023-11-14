@@ -3,7 +3,6 @@ export const addDecimals = (number) => {
 	return (Math.round(number * 100) / 100).toFixed(2);
 };
 
-
 //update fields of cart
 export const cartUpdate = (state) => {
 	//Calc items price
@@ -25,4 +24,9 @@ export const cartUpdate = (state) => {
 	).toFixed(2);
 
 	localStorage.setItem('cart', JSON.stringify(state));
+}
+
+//total number of products
+export const getProductsCount = (array) => {
+	return array.reduce((acc, item) => acc + item.qty, 0)
 }
