@@ -6,6 +6,7 @@ import {
 import App from './App';
 import { HomePage } from './pages/HomePage';
 import { ProductPage } from './pages/ProductPage';
+import { CartPage } from './pages/CartPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -19,6 +20,10 @@ export const router = createBrowserRouter(
 			<Route
 				path="/product/:id"
 				element={<ProductPage />}
+			/>
+			<Route
+				path="/cart"
+				element={<CartPage />}
 			/>
 		</Route>,
 	),

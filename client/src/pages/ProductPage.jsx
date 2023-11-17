@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {
@@ -15,8 +15,9 @@ import { Rating } from '../components/Rating';
 import { useGetProductDetailsQuery } from '../redux/slices/productsApiSlice';
 import { Loader } from '../components/Loader';
 import { Message } from '../components/Message';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
+import useTitle from '../hooks/useTitle';
 
 export const ProductPage = () => {
 	const navigate = useNavigate();
@@ -37,9 +38,7 @@ export const ProductPage = () => {
 		setQty(data);
 	};
 
-	useEffect(() => {
-		document.title = 'MERN | Product page';
-	}, []);
+	useTitle(prod?.name)
 
 	return (
 		<>
