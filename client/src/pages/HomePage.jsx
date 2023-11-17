@@ -4,10 +4,12 @@ import Product from '../components/Product.jsx';
 import { useGetProductsQuery } from '../redux/slices/productsApiSlice.js';
 import { Loader } from '../components/Loader.jsx';
 import { Message } from '../components/Message.jsx';
+import useTitle from '../hooks/useTitle.js';
 
 export const HomePage = () => {
 	const { data, error, isLoading } = useGetProductsQuery();
 
+	useTitle('Home')
 	return (
 		<>
 			<h1>Latest Products</h1>
