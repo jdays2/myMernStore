@@ -9,11 +9,15 @@ import { getProductsCount } from '../utils/cartUtils';
 
 export const CartPage = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
 	const { cartItems, totalPrice } = useSelector((state) => state.cart);
 	const isEmpty = cartItems.length === 0;
 
+	const checkoutHandler = () => {
+		navigate('/login?redirect=/shipping')
+	}
+
 	const totalCount = getProductsCount(cartItems);
+	
 	useTitle(`Cart (${totalCount})`);
 	return (
 		<Row>
@@ -46,7 +50,7 @@ export const CartPage = () => {
 							<Col>${totalPrice}</Col>
 						</ListGroup.Item>
 						<ListGroup.Item>
-							<Button
+							<Button onClick={checkoutHandler}
 								type="button"
 								className="btn-block"
 								disabled={isEmpty}>
