@@ -4,6 +4,7 @@ dotenv.config();
 import cors from 'cors';
 import connectDB from './config/bd.js';
 import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js'
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 const port = process.env.PORT || 8000;
 
@@ -14,6 +15,7 @@ const app = express();
 app.use(cors()); //добавляетм cors
 
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes)
 
 app.use(notFound);
 app.use(errorHandler);
