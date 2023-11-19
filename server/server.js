@@ -12,7 +12,14 @@ connectDB(); //подключаемся в bd
 
 const app = express();
 
-app.use(cors()); //добавляетм cors
+//добавляетм cors
+app.use(cors());
+
+// Middleware для автоматического парсинга JSON
+app.use(express.json());
+
+// Middleware для парсинга данных формы в формате x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes)
