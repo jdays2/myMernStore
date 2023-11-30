@@ -8,6 +8,10 @@ const errorHandler = (err, req, res, next) => {
 	let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
 	let message = err.message;
 
+	if (res.headersSent) {
+    return next(err);
+  }
+
 	//check for mongoos bad obj.id
 	if (err.name === 'CastError' && err.kind === 'ObjectId') {
 		message = 'Resouce not found';
