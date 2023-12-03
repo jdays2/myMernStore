@@ -10,19 +10,21 @@ const authUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 
 	const user = await User.findOne({ email });
+
 	//create jwt token
-	const token = jwt.sign({userId: user._id},process.env.JWT_SECRET, {
+	const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
 		expiresIn: '1d',
-	})
-	//set jwt as cookie
-	res.cookie('jwt',token,{
-		httpOnly:true,
-		secure: process.env.NODE_ENV !== 'development',
-		sameSite: 'strict',
-		maxAge: 24 * 60 * 60 * 1000 // 1 day
-	})
+	});
 
 	if (user && (await user.matchPassword(password))) {
+		//set jwt as cookie
+		res.cookie('jwt', token, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV !== 'development',
+			sameSite: 'strict',
+			maxAge: 24 * 60 * 60 * 1000, // 1 day
+		});
+
 		res.json({
 			_id: user._id,
 			name: user.name,
@@ -44,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 //@desk   Logout  user / claer cookie
 //@route   POST /api/users/logout
-//@access  Privat
+//@access  Private
 const logoutUser = asyncHandler(async (req, res) => {
 	res.send('logout user');
 });
