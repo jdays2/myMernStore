@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
+import cookieParser from 'cookie-parser'
+
 import connectDB from './config/bd.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js'
@@ -20,6 +22,9 @@ app.use(express.json());
 
 // Middleware для парсинга данных формы в формате x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+//Middleware для парсинга данных cookie
+app.use(cookieParser())
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes)
