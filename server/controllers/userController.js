@@ -48,7 +48,12 @@ const registerUser = asyncHandler(async (req, res) => {
 //@route   POST /api/users/logout
 //@access  Private
 const logoutUser = asyncHandler(async (req, res) => {
-	res.send('logout user');
+	//delete cookie
+	res.cookie('jwt', '', {
+		httpOnly: true,
+		expiresIn: new Date(),
+	});
+	res.status(200).json({message:'Logout is successful'})
 });
 
 //@desk    Get user profile
