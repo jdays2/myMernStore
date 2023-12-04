@@ -1,7 +1,6 @@
-import jwt from 'jsonwebtoken';
-
 import asyncHandler from '../middleware/asyncHandler.js';
 import User from '../models/userModel.js';
+import { createToken } from '../utils/createToken.js';
 
 //@desk    auth user & get token
 //@route   POST /api/users/login
@@ -11,19 +10,8 @@ const authUser = asyncHandler(async (req, res) => {
 
 	const user = await User.findOne({ email });
 
-	//create jwt token
-	const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-		expiresIn: '1d',
-	});
-
 	if (user && (await user.matchPassword(password))) {
-		//set jwt as cookie
-		res.cookie('jwt', token, {
-			httpOnly: true,
-			secure: process.env.NODE_ENV !== 'development',
-			sameSite: 'strict',
-			maxAge: 24 * 60 * 60 * 1000, // 1 day
-		});
+		createToken(res, user._id);
 
 		res.json({
 			_id: user._id,
@@ -41,7 +29,33 @@ const authUser = asyncHandler(async (req, res) => {
 //@route   POST /api/users
 //@access  Public
 const registerUser = asyncHandler(async (req, res) => {
-	res.send('register user');
+	const { name, email, password } = req.body;
+
+	const userExist = await User.findOne({ email });
+
+	if (userExist) {
+		res.status(400);
+		throw new Error('User is already exist');
+	}
+
+	const user = await User.create({
+		name,
+		email,
+		password,
+	});
+
+	if (user) {
+		createToken(res, user._id);
+		res.status(201).json({
+			name: user.name,
+			email: user.email,
+			_id: user._id,
+			isAdmin: user.isAdmin,
+		});
+	} else {
+		res.status(400);
+		throw new Error('Invalid user data');
+	}
 });
 
 //@desk   Logout  user / claer cookie
@@ -53,7 +67,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 		httpOnly: true,
 		expiresIn: new Date(),
 	});
-	res.status(200).json({message:'Logout is successful'})
+	res.status(200).json({ message: 'Logout is successful' });
 });
 
 //@desk    Get user profile
