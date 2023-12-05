@@ -15,7 +15,7 @@ import { Rating } from '../components/Rating';
 import { useGetProductDetailsQuery } from '../redux/slices/productsApiSlice';
 import { Loader } from '../components/Loader';
 import { Message } from '../components/Message';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
 import useTitle from '../hooks/useTitle';
 

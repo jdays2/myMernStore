@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Message } from '../components/Message';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartItem } from '../components/CartItem';
