@@ -1,14 +1,37 @@
 import React from 'react';
-import { Navbar, Nav, Container, Badge } from 'react-bootstrap';
+import { Navbar, Nav, Container, Badge, NavDropdown } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import logo from '../assets/logo.png';
-import { useSelector } from 'react-redux';
 import { getProductsCount } from '../utils/cartUtils';
+import { useLogoutMutation } from '../redux/slices/usersApiSlice';
+import { logout } from '../redux/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
 	const { cartItems } = useSelector((state) => state.cart);
+	const { userInfo } = useSelector((state) => state.auth);
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const [logoutApiCall] = useLogoutMutation();
+
+	const logoutHandler = async (e) => {
+		e.preventDefault();
+
+		try {
+			await logoutApiCall().unwrap();
+			dispatch(logout());
+			navigate('/login')
+		} catch (err) {
+			toast.error(err?.data?.message || err?.error);
+		}
+	};
+
 	return (
 		<header>
 			<Navbar
@@ -42,11 +65,25 @@ export const Header = () => {
 									)}
 								</Nav.Link>
 							</LinkContainer>
-							<LinkContainer to="/login">
-								<Nav.Link>
-									<FaUser /> Sign In
-								</Nav.Link>
-							</LinkContainer>
+							{userInfo ? (
+								<NavDropdown
+									title={userInfo.name}
+									id="username">
+									<LinkContainer to="/profile">
+										<NavDropdown.Item>Profile</NavDropdown.Item>
+									</LinkContainer>
+
+									<NavDropdown.Item onClick={logoutHandler}>
+										Logout
+									</NavDropdown.Item>
+								</NavDropdown>
+							) : (
+								<LinkContainer to="/login">
+									<Nav.Link>
+										<FaUser /> Sign In
+									</Nav.Link>
+								</LinkContainer>
+							)}
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
