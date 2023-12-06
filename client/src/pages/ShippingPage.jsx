@@ -76,7 +76,7 @@ export const ShippingPage = () => {
 				</Form.Group>
 
 				<Button
-					type="submite"
+					type="submit"
 					variant="primary"
 					className="mt-4">
 					Continue
