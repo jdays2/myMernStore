@@ -9,6 +9,8 @@ import { ProductPage } from './pages/ProductPage';
 import { CartPage } from './pages/CartPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ShippingPage } from './pages/ShippingPage';
+import { PrivateRoute } from './components/routes/PrivateRoute';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -35,6 +37,15 @@ export const router = createBrowserRouter(
 				path="/registration"
 				element={<RegisterPage />}
 			/>
+
+			<Route
+				path=""
+				element={<PrivateRoute />}>
+				<Route
+					path="/shipping"
+					element={<ShippingPage />}
+				/>
+			</Route>
 		</Route>,
 	),
 );

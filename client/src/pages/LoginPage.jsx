@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -20,11 +20,15 @@ export const LoginPage = () => {
 	const { userInfo } = useSelector((state) => state.auth);
 	const [login, { isLoading }] = useLoginMutation();
 
+	const { search } = useLocation();
+	const sp = new URLSearchParams(search);
+	const redirect = sp.get('redirect') || '/';
+
 	useEffect(() => {
 		if (userInfo) {
-			navigate('/');
-		} 
-	}, [userInfo]);
+			navigate(redirect);
+		}
+	}, [userInfo, redirect, navigate]);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
@@ -85,8 +89,7 @@ export const LoginPage = () => {
 
 			<Row className="py-3">
 				<Col>
-					New customer?{' '}
-					<Link to="/registration"> Register</Link>
+					New customer? <Link to="/registration"> Register</Link>
 				</Col>
 			</Row>
 		</FormContainer>

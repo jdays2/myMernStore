@@ -54,7 +54,7 @@ export const CartPage = () => {
 								type="button"
 								className="btn-block"
 								disabled={isEmpty}>
-								Proceed To Checkpoutt
+								Proceed To Checkpout
 							</Button>
 						</ListGroup.Item>
 					</ListGroup>
