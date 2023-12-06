@@ -9,6 +9,7 @@ import { ProductPage } from './pages/ProductPage';
 import { CartPage } from './pages/CartPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ShippingPage } from './pages/ShippingPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -34,6 +35,10 @@ export const router = createBrowserRouter(
 			<Route
 				path="/registration"
 				element={<RegisterPage />}
+			/>
+			<Route
+				path="/shipping"
+				element={<ShippingPage />}
 			/>
 		</Route>,
 	),
