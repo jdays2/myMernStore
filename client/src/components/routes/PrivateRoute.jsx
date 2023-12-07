@@ -9,7 +9,7 @@ export const PrivateRoute = () => {
 	) : (
 		<Navigate
 			to="/login"
-			replace
+			replace="true"
 		/>
 	);
 };
