@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FormContainer } from '../components/FormContainer';
 import { saveShippingAddress } from '../redux/slices/cartSlice';
+import { Steps } from '../components/Steps';
 
 export const ShippingPage = () => {
 	const { shippingAddress } = useSelector((state) => state.cart);
@@ -20,12 +21,13 @@ export const ShippingPage = () => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(saveShippingAddress({ address, city, postal, country }));
-		console.log(shippingAddress);
+		
 		navigate('/payment');
 	};
 
 	return (
 		<FormContainer>
+			<Steps step1 step2/>
 			<h1>Shipping</h1>
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId="address">
