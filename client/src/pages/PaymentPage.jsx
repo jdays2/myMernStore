@@ -26,7 +26,7 @@ export const PaymentPage = () => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(savePaymentMethod(method));
-		navigate('/placeorder');
+		navigate('/placeOrder');
 	};
 
 	return (
