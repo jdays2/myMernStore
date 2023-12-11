@@ -37,7 +37,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 });
 
 //@desk    Get All orders
-//@route   GET /api/orders/:id/delivered
+//@route   GET /api/orders/
 //@access  Private / admin
 const getOrders = asyncHandler(async (req, res) => {
 	res.send('get all orders');
