@@ -10,8 +10,7 @@ import { Steps } from '../components/Steps';
 export const PaymentPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { shippingAddress } = useSelector((state) => state.cart);
-	const { paymentMethod } = useSelector((state) => state.cart);
+	const { shippingAddress, paymentMethod } = useSelector((state) => state.cart);
 
 	const [method, setMethod] = useState(
 		paymentMethod ? paymentMethod : 'PayPal',
@@ -26,7 +25,7 @@ export const PaymentPage = () => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		dispatch(savePaymentMethod(method));
-		navigate('/placeOrder');
+		navigate('/place-order');
 	};
 
 	return (

@@ -12,6 +12,7 @@ import { RegisterPage } from './pages/RegisterPage';
 import { ShippingPage } from './pages/ShippingPage';
 import { PrivateRoute } from './components/routes/PrivateRoute';
 import { PaymentPage } from './pages/PaymentPage';
+import { PlaceOrderPage } from './pages/PlaceOrderPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -49,6 +50,10 @@ export const router = createBrowserRouter(
 				<Route
 					path="/payment"
 					element={<PaymentPage />}
+				/>
+				<Route
+					path="/place-order"
+					element={<PlaceOrderPage />}
 				/>
 			</Route>
 		</Route>,

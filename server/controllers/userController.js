@@ -1,6 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import User from '../models/userModel.js';
-import { createToken } from '../utils/createToken.js';
+import createToken from '../utils/createToken.js';
 
 //@desk    auth user & get token
 //@route   POST /api/users/login
@@ -58,13 +58,12 @@ const registerUser = asyncHandler(async (req, res) => {
 	}
 });
 
-//@desk   Logout  user / claer cookie
+//@desk   Logout  user / clear cookie
 //@route   POST /api/users/logout
 //@access  Private
 const logoutUser = asyncHandler(async (req, res) => {
 	//delete cookie
 	res.cookie('jwt', '', {
-		httpOnly: true,
 		expiresIn: new Date(),
 	});
 	res.status(200).json({ message: 'Logout is successful' });
@@ -111,7 +110,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 			_id: updatedUser._id,
 			isAdmin: updatedUser.isAdmin,
 		});
-
 	} else {
 		res.status(404);
 		throw new Error('User is not found');

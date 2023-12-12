@@ -36,7 +36,7 @@ export const Steps = ({ step1, step2, step3, step4 }) => (
 
 		<Nav.Item>
 			{step4 ? (
-				<LinkContainer to="/placeorder">
+				<LinkContainer to="/place-order">
 					<Nav.Link>Place Order</Nav.Link>
 				</LinkContainer>
 			) : (
