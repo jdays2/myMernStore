@@ -25,15 +25,6 @@ export const PlaceOrderPage = () => {
 	}, [cart.shippingAddress.address, cart.paymentMethod]);
 
 	const createOrderHandler = async () => {
-		console.log({
-			orderItems: cart.orderItems,
-			shippingAddress: cart.shippingAddress,
-			shippingPrice: cart.shippingPrice,
-			paymentMethod: cart.paymentMethod,
-			itemsPrice: cart.itemsPrice,
-			taxPrice: cart.taxPrice,
-			totalPrice: cart.totalPrice,
-		})
 		try {
 			const res = await createOrder({
 				orderItems: cart.cartItems,
