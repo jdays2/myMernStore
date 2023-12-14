@@ -16,7 +16,7 @@ connectDB(); //подключаемся в bd
 const app = express();
 
 //добавляетм cors
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 // Middleware для автоматического парсинга JSON
 app.use(express.json());

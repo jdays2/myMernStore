@@ -8,12 +8,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 				url: `${USERS_URL}/login`,
 				method: 'POST',
 				body: data,
+				credentials: 'include',
 			}),
 		}),
 		logout: builder.mutation({
 			query: () => ({
 				url: `${USERS_URL}/logout`,
 				method: 'POST',
+				credentials: 'include',
 			}),
 		}),
 		register: builder.mutation({
@@ -21,9 +23,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 				url: `${USERS_URL}/`,
 				method: 'POST',
 				body,
+				credentials: 'include',
 			}),
 		}),
 	}),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
+	usersApiSlice;
