@@ -1,5 +1,5 @@
 import asyncHandler from '../middleware/asyncHandler.js';
-import Order from '../models/userModel.js';
+import Order from '../models/orderModel.js';
 
 //@desk    Create new order
 //@route   POST /api/orders
@@ -8,10 +8,10 @@ const addOrderItems = asyncHandler(async (req, res) => {
 	const {
 		orderItems,
 		shippingAddress,
+		shippingPrice,
 		paymentMethod,
 		itemsPrice,
 		taxPrice,
-		shippingPrice,
 		totalPrice,
 	} = req.body;
 
@@ -25,7 +25,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 				product: e._id,
 				_id: undefined,
 			})),
-			user: req.user._id,
+			user: req.user,
 			shippingAddress,
 			paymentMethod,
 			itemsPrice,
@@ -35,7 +35,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
 		});
 
 		const createOrder = await order.save();
-
 		res.status(200).json(createOrder);
 	}
 });

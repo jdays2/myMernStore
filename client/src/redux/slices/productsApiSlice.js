@@ -6,10 +6,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 		getProducts: builder.query({
 			query: () => ({ url: PRODUCTS_URL }),
 			keepUnusedDataFor: 6,
+			credentials: 'include',
 		}),
 		getProductDetails: builder.query({
 			query: (id) => ({
 				url: `${PRODUCTS_URL}/${id}`,
+				credentials: 'include',
 			}),
 		}),
 	}),
