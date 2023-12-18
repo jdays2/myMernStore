@@ -40,7 +40,7 @@ export const PlaceOrderPage = () => {
 
 			
 			dispatch(clearCartItems());
-			navigate(`order/${res._id}`);
+			navigate(`/order/${res._id}`);
 		} catch (error) {
 			toast.error(error);
 		}

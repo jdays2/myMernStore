@@ -10,11 +10,12 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
 				body: order,
 				credentials: 'include',
 			}),
-			getOrderById: builder.query({
-				query: (id) => ({
-					url: `${ORDERS_URL}/${id}`,
-					credentials: 'include',
-				}),
+		}),
+		getOrderById: builder.query({
+			query: (id) => ({
+				url: `${ORDERS_URL}/${id}`,
+				credentials: 'include',
+				keepUnusedDataFor: 5,
 			}),
 		}),
 	}),
