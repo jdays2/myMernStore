@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { FormContainer } from '../components/FormContainer';
-import { Steps } from '../components/Steps';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+
+import { Steps } from '../components/Steps';
 import { useCreateOrderMutation } from '../redux/slices/ordersApiSlice';
 import { clearCartItems } from '../redux/slices/cartSlice';
-import { toast } from 'react-toastify';
 import { Message } from '../components/Message';
 
 export const PlaceOrderPage = () => {

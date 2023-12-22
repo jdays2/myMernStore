@@ -1,13 +1,86 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+
+import {
+	usePayOrderMutation,
+	useGetPayPalIdQuery,
+} from '../redux/slices/ordersApiSlice';
+import { toast } from 'react-toastify';
 import { useGetOrderByIdQuery } from '../redux/slices/ordersApiSlice';
 import { Message } from '../components/Message';
 import { Loader } from '../components/Loader';
-import { Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 
 export const OrderPage = () => {
 	const { id } = useParams();
 	const { data: order, refetch, isLoading, error } = useGetOrderByIdQuery(id);
+	const orderId = order && order._id;
+
+	const {
+		data: payPalId,
+		isLoading: payPalIdLoading,
+		error: payPalIdError,
+	} = useGetPayPalIdQuery();
+
+	const [payOrder, { isLoading: payOrderLoading }] = usePayOrderMutation();
+
+	const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+	useEffect(() => {
+		if (!payPalIdError && !payPalIdLoading && payPalId.clientId) {
+			const loadPaypalScript = async () => {
+				paypalDispatch({
+					type: 'resetOptions',
+					value: {
+						'client-id': payPalId.clientId,
+						currency: 'USD',
+					},
+				});
+				paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+			};
+			if (order && !order.isPaid) {
+				if (!window.paypal) {
+					loadPaypalScript();
+				}
+			}
+		}
+	}, [payPalIdError, payPalIdLoading, order, payPalId, paypalDispatch]);
+
+	const createOrder = (data, action) => {
+		return action.order
+			.create({
+				purchase_units: [
+					{
+						amount: {
+							value: order.totalPrice,
+						},
+					},
+				],
+			})
+			.then((orderId) => {
+				return orderId;
+			});
+	};
+
+	const onApprove = (data, action) => {
+		if (!orderId) return;
+		return action.order.capture().then(async function (details) {
+			try {
+				await payOrder({ orderId, details });
+
+				refetch();
+
+				toast.success('Payment successful');
+			} catch (err) {
+				toast.error(err?.data?.message || err?.message);
+			}
+		});
+	};
+
+	const onError = (err) => {
+		toast.error(err?.data?.message || err?.message);
+	};
 
 	return isLoading ? (
 		<Loader />
@@ -15,7 +88,7 @@ export const OrderPage = () => {
 		<Message variant="danger">{error}</Message>
 	) : (
 		<>
-			<h1>{order._id}</h1>
+			<h1>{orderId}</h1>
 			<Row>
 				<Col md={8}>
 					<ListGroup variant="flush">
@@ -32,7 +105,7 @@ export const OrderPage = () => {
 								{order.shippingAddress.city}, {order.shippingAddress.country},{' '}
 								{order.shippingAddress.postal}
 							</p>
-							<p>
+							<div>
 								{order.isDelivered ? (
 									<Message variant="success">
 										Delivered on {order.deliveredAt}
@@ -40,7 +113,7 @@ export const OrderPage = () => {
 								) : (
 									<Message variant="danger">Not Delivered</Message>
 								)}
-							</p>
+							</div>
 						</ListGroup.Item>
 
 						<ListGroup.Item>
@@ -49,13 +122,13 @@ export const OrderPage = () => {
 								<strong>Method: </strong> {order.paymentMethod}
 							</p>
 
-							<p>
+							<div>
 								{order.isPaid ? (
 									<Message variant="success">Paid at {order.paidAt}</Message>
 								) : (
 									<Message variant="danger">Not Paid </Message>
 								)}
-							</p>
+							</div>
 						</ListGroup.Item>
 						<ListGroup.Item>
 							<h2>Order Items</h2>
@@ -98,23 +171,38 @@ export const OrderPage = () => {
 									<Col>${order.itemsPrice}</Col>
 								</Row>
 
-                <Row>
+								<Row>
 									<Col>Shipping</Col>
 									<Col>${order.shippingPrice}</Col>
 								</Row>
 
-                <Row>
+								<Row>
 									<Col>Tax</Col>
 									<Col>${order.taxPrice}</Col>
 								</Row>
 
-                <Row>
+								<Row>
 									<Col>Total</Col>
 									<Col>${order.totalPrice}</Col>
 								</Row>
-
-                {/* кнопка для оплаты и смены статуса доставки */}
 							</ListGroup.Item>
+							{!order.isPaid && (
+								<ListGroup.Item>
+									{payOrderLoading && <Loader />}
+									{isPending ? (
+										<Loader />
+									) : (
+										<>
+											<div>
+												<PayPalButtons
+													createOrder={createOrder}
+													onApprove={onApprove}
+													onError={onError}></PayPalButtons>
+											</div>
+										</>
+									)}
+								</ListGroup.Item>
+							)}
 						</ListGroup>
 					</Card>
 				</Col>
