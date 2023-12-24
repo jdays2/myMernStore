@@ -14,6 +14,7 @@ import { PrivateRoute } from './components/routes/PrivateRoute';
 import { PaymentPage } from './pages/PaymentPage';
 import { PlaceOrderPage } from './pages/PlaceOrderPage';
 import { OrderPage } from './pages/OrderPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -59,6 +60,10 @@ export const router = createBrowserRouter(
 				<Route
 					path="/order/:id"
 					element={<OrderPage />}
+				/>
+				<Route
+					path="/profile"
+					element={<ProfilePage />}
 				/>
 			</Route>
 		</Route>,
