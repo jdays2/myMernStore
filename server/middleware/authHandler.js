@@ -8,13 +8,11 @@ export const protect = asyncHandler(async (req, res, next) => {
   
 	//read jwt from cookie
 	token = req.cookies.jwt;
-	console.log('protection token: ' + token);
 
 	if (token) {
 		try {
 			const decoded = jwt.verify(token, process.env.JWT_SECRET);
 			const userId = decoded.userId;
-			console.log('decoded token (userId): ' + decoded.userId);
 
 			req.user = await User.findById(userId).select('-password');
 			
