@@ -5,9 +5,12 @@ import { Navigate, Outlet } from 'react-router-dom';
 export const AdminRoute = () => {
 	const { userInfo: user } = useSelector((state) => state.auth);
 
-	return user.isAdmin ? (
+	return user && user.isAdmin ? (
 		<Outlet />
 	) : (
-		<>Ты админ?</>
+		<Navigate
+			to="/login"
+			replace="true"
+		/>
 	);
 };
