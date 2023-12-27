@@ -16,6 +16,7 @@ import { PlaceOrderPage } from './pages/PlaceOrderPage';
 import { OrderPage } from './pages/OrderPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminRoute } from './components/routes/AdminRoute';
+import { OrderListPage } from './pages/admin/OrderListPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -72,8 +73,8 @@ export const router = createBrowserRouter(
 				path=""
 				element={<AdminRoute />}>
 				<Route
-					path="/cart"
-					element={<CartPage />}
+					path="/admin/order-list"
+					element={<OrderListPage />}
 				/>
 			</Route>
 		</Route>,

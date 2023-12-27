@@ -26,7 +26,7 @@ export const Header = () => {
 		try {
 			await logoutApiCall().unwrap();
 			dispatch(logout());
-			navigate('/login')
+			navigate('/login');
 		} catch (err) {
 			toast.error(err?.data?.message || err?.error);
 		}
@@ -83,6 +83,16 @@ export const Header = () => {
 										<FaUser /> Sign In
 									</Nav.Link>
 								</LinkContainer>
+							)}
+
+							{userInfo && userInfo.isAdmin && (
+								<NavDropdown
+									title="Admin"
+									id="adminMenu">
+									<LinkContainer to="/admin/order-list">
+										<NavDropdown.Item>Orders</NavDropdown.Item>
+									</LinkContainer>
+								</NavDropdown>
 							)}
 						</Nav>
 					</Navbar.Collapse>
