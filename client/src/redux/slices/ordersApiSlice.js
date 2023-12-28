@@ -33,12 +33,28 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
 				credentials: 'include',
 			}),
 		}),
+
+		deliverOrder: builder.mutation({
+			query: (id) => ({
+				url: `${ORDERS_URL}/${id}/delivered`,
+				method: 'PUT',
+				credentials: 'include',
+			}),
+		}),
+
 		getMyOrders: builder.query({
 			query: () => ({
 				url: `${ORDERS_URL}/mine`,
 				credentials: 'include',
-				keepUnusedDataFor: 5,
 			}),
+			keepUnusedDataFor: 5,
+		}),
+		getOrders: builder.query({
+			query: () => ({
+				url: ORDERS_URL,
+				credentials: 'include',
+			}),
+			keepUnusedDataFor: 5,
 		}),
 	}),
 });
@@ -48,5 +64,7 @@ export const {
 	useGetOrderByIdQuery,
 	useGetPayPalIdQuery,
 	usePayOrderMutation,
+	useDeliverOrderMutation,
 	useGetMyOrdersQuery,
+	useGetOrdersQuery,
 } = ordersApiSlice;
