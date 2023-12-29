@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import { Loader } from '../../components/Loader';
 import { Message } from '../../components/Message';
-import { Button, Col, Row, Table } from 'react-bootstrap';
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice';
+import { Button, Col, Modal, Row, Table } from 'react-bootstrap';
+import {
+	useCreateProductMutation,
+	useGetProductsQuery,
+} from '../../redux/slices/productsApiSlice';
 
 export const ProductListPage = () => {
-	const { data: products, isLoading, error } = useGetProductsQuery();
+	const [createProduct, { isLoading: createLoading }] =
+		useCreateProductMutation();
+	const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+	const [create, setCreate] = useState(false);
 
-	const createHandler = () => {};
+	const handleClose = () => setCreate(false);
+	const handleShow = () => setCreate(true);
+
+	const createHandler = async () => {
+		handleClose();
+		try {
+			await createProduct();
+			refetch();
+		} catch (error) {
+			toast.error(error?.data?.message || error.message);
+		}
+	};
 	const deleteHandler = (id) => {};
 	return (
 		<>
@@ -21,12 +39,37 @@ export const ProductListPage = () => {
 				<Col className="text-end">
 					<Button
 						className="d-inline-flex p-1 px-2 gap-1 align-items-center"
-						pnClick={createHandler}>
+						onClick={handleShow}>
 						<FaEdit />
 						<span>Create Product</span>
 					</Button>
+
+					<Modal
+						show={create}
+						onHide={handleClose}>
+						<Modal.Body className="p-2 px-3">
+							<Row className="d-flex gap-1">
+								<h4 className="text-center w-1">
+									{' '}
+									Are you sure you want to create a new product?
+								</h4>
+								<Button
+									variant="primary"
+									onClick={createHandler}>
+									Create product
+								</Button>
+								<Button
+									variant="light"
+									onClick={handleClose}>
+									Close
+								</Button>
+							</Row>
+						</Modal.Body>
+					</Modal>
 				</Col>
 			</Row>
+			{createLoading && <Loader />}
+
 			{isLoading ? (
 				<Loader />
 			) : error ? (
@@ -66,15 +109,13 @@ export const ProductListPage = () => {
 												color="black"
 												size={14}
 											/>
-											<span>Edit</span>
 										</Button>
 									</LinkContainer>
 
-									<Button
+									<Button className="d-inline-flex p-1 px-2 gap-1 align-items-center"
 										onClick={() => {
 											deleteHandler(product._id);
 										}}
-										className="btn-sm"
 										variant="danger">
 										<FaTrash
 											color="white"
