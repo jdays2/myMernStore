@@ -12,7 +12,7 @@ import {
 } from '../../redux/slices/productsApiSlice';
 
 export const ProductListPage = () => {
-	const [createProduct, { isLoading: createLoading }] =
+	const [createProduct, { isLoading: isCreateLoading }] =
 		useCreateProductMutation();
 	const { data: products, isLoading, error, refetch } = useGetProductsQuery();
 	const [create, setCreate] = useState(false);
@@ -68,7 +68,7 @@ export const ProductListPage = () => {
 					</Modal>
 				</Col>
 			</Row>
-			{createLoading && <Loader />}
+			{isCreateLoading && <Loader />}
 
 			{isLoading ? (
 				<Loader />
@@ -112,7 +112,8 @@ export const ProductListPage = () => {
 										</Button>
 									</LinkContainer>
 
-									<Button className="d-inline-flex p-1 px-2 gap-1 align-items-center"
+									<Button
+										className="d-inline-flex p-1 px-2 gap-1 align-items-center"
 										onClick={() => {
 											deleteHandler(product._id);
 										}}
