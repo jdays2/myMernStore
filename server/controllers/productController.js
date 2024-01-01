@@ -45,3 +45,31 @@ export const createProduct = asyncHandler(async (req, res) => {
 		throw new Error(error);
 	}
 });
+
+//@desk    Edit product
+//@route PUT /api/products/:id
+//@access  Private/Admin
+export const updateProduct = asyncHandler(async (req, res) => {
+	const id = req.params.id;
+	const { name, price, image, brand, category, countInStock, description } =
+		req.body;
+
+	const product = await Product.findById(id);
+
+	if (product) {
+		product.name = name;
+		product.price = price;
+		product.image = image;
+		product.brand = brand;
+		product.category = category;
+		product.countInStock = countInStock;
+		product.description = description;
+
+		const updatedProduct = await user.save();
+
+		res.status(200).json(updatedProduct);
+	} else {
+		res.status(404);
+		throw new Error('Product is not found');
+	}
+});
