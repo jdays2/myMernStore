@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import { Loader } from '../../components/Loader';
@@ -96,12 +96,12 @@ export const ProductListPage = () => {
 							<tr key={product._id}>
 								<td>{product._id}</td>
 								<td>{product.name}</td>
-								<td>{product.price}</td>
+								<td>${product.price}</td>
 								<td>{product.category}</td>
 								<td>{product.brand}</td>
 
 								<td className="d-flex gap-2 align-items-center justify-content-center">
-									<LinkContainer to={`/admin/product/${product._id}`}>
+									<LinkContainer to={`/admin/product/${product._id}/edit`}>
 										<Button
 											className="d-inline-flex p-1 px-2 gap-1 align-items-center"
 											variant="light">
