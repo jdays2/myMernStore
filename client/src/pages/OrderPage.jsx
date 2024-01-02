@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 import {
 	usePayOrderMutation,
 	useGetPayPalIdQuery,
 	useDeliverOrderMutation,
 } from '../redux/slices/ordersApiSlice';
-import { toast } from 'react-toastify';
 import { useGetOrderByIdQuery } from '../redux/slices/ordersApiSlice';
 import { Message } from '../components/Message';
 import { Loader } from '../components/Loader';
-import { useSelector } from 'react-redux';
 
 export const OrderPage = () => {
 	const { id } = useParams();

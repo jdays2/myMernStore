@@ -17,8 +17,9 @@ export const getProductByID = asyncHandler(async (req, res) => {
 	const product = await Product.findById(id);
 	if (product) {
 		res.json(product);
+	} else {
+		res.status(404).json({ message: 'Product not find' });
 	}
-	res.status(404).json({ message: 'Product not find' });
 });
 
 //@desk create a product
@@ -51,6 +52,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 //@access  Private/Admin
 export const updateProduct = asyncHandler(async (req, res) => {
 	const id = req.params.id;
+
 	const { name, price, image, brand, category, countInStock, description } =
 		req.body;
 
@@ -65,7 +67,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
 		product.countInStock = countInStock;
 		product.description = description;
 
-		const updatedProduct = await user.save();
+		const updatedProduct = await product.save();
 
 		res.status(200).json(updatedProduct);
 	} else {
