@@ -72,14 +72,14 @@ export const ProductEditPage = () => {
 	};
 
 	const uploadImageHandler = async (e) => {
-		const file = e.target.files[0];
-		console.log(file)
+		const formData = new FormData();
+		formData.append('image', e.target.files[0]);
 		try {
-			const url = await uploadImage(file);
-			toast.success(url.message);
-			setImage(url.image);
+			const res = await uploadImage(formData).unwrap();
+			toast.success(res.message);
+			setImage(res.image);
 		} catch (err) {
-			toast.error(err?.data?.message || err?.message);
+			toast.error(err?.data?.message || err.error);
 		}
 	};
 
