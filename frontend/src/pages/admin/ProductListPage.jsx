@@ -8,28 +8,59 @@ import { Message } from '../../components/Message';
 import { Button, Col, Modal, Row, Table } from 'react-bootstrap';
 import {
 	useCreateProductMutation,
+	useDeleteProductMutation,
 	useGetProductsQuery,
 } from '../../redux/slices/productsApiSlice';
+import { ModalConfirmation } from '../ModalConfirmation';
 
 export const ProductListPage = () => {
 	const [createProduct, { isLoading: isCreateLoading }] =
 		useCreateProductMutation();
+
+	const [deleteProduct, { isLoading: isDeleteLoading, error: deleteError }] =
+		useDeleteProductMutation();
+
 	const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
 	const [create, setCreate] = useState(false);
+	const [del, setDel] = useState(false);
+	const [delId, setDelId] = useState();
 
 	const handleClose = () => setCreate(false);
 	const handleShow = () => setCreate(true);
 
+	const handleDelClose = () => {
+		setDel(false);
+	};
+	const handleDelShow = () => {
+		setDel(true);
+	};
+
 	const createHandler = async () => {
-		handleClose();
 		try {
 			await createProduct();
+			handleClose();
+			toast.success('Product successfully created');
 			refetch();
 		} catch (error) {
+			handleClose();
 			toast.error(error?.data?.message || error.message);
 		}
 	};
-	const deleteHandler = (id) => {};
+
+	const deleteHandler = async () => {
+		try {
+			const deleted = await deleteProduct(delId);
+			setDelId('');
+			handleDelClose();
+			toast.success(deleted.data.message);
+			refetch();
+		} catch (error) {
+			setDelId('');
+			handleDelClose();
+			toast.error(error?.data?.message || error.message);
+		}
+	};
 	return (
 		<>
 			<Row>
@@ -44,31 +75,25 @@ export const ProductListPage = () => {
 						<span>Create Product</span>
 					</Button>
 
-					<Modal
-						show={create}
-						onHide={handleClose}>
-						<Modal.Body className="p-2 px-3">
-							<Row className="d-flex gap-1">
-								<h4 className="text-center w-1">
-									{' '}
-									Are you sure you want to create a new product?
-								</h4>
-								<Button
-									variant="primary"
-									onClick={createHandler}>
-									Create product
-								</Button>
-								<Button
-									variant="light"
-									onClick={handleClose}>
-									Close
-								</Button>
-							</Row>
-						</Modal.Body>
-					</Modal>
+					<ModalConfirmation
+						onShow={del}
+						hide={handleDelClose}
+						question={'Are you sure you want to delete a product?'}
+						buttonText={'Delete'}
+						action={deleteHandler}
+					/>
+
+					<ModalConfirmation
+						onShow={create}
+						hide={handleClose}
+						question={'Are you sure you want to create a new product?'}
+						buttonText={'Create'}
+						action={createHandler}
+					/>
 				</Col>
 			</Row>
 			{isCreateLoading && <Loader />}
+			{isDeleteLoading && <Loader />}
 
 			{isLoading ? (
 				<Loader />
@@ -115,7 +140,8 @@ export const ProductListPage = () => {
 									<Button
 										className="d-inline-flex p-1 px-2 gap-1 align-items-center"
 										onClick={() => {
-											deleteHandler(product._id);
+											setDelId(product._id);
+											handleDelShow();
 										}}
 										variant="danger">
 										<FaTrash
