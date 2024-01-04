@@ -6,7 +6,7 @@ import Product from '../models/productModel.js';
 //@access Public
 export const getProduct = asyncHandler(async (req, res) => {
 	const products = await Product.find({});
-	res.json(products);
+	res.status(200).json(products);
 });
 
 //@desk fetch one product by id
@@ -16,7 +16,7 @@ export const getProductByID = asyncHandler(async (req, res) => {
 	const id = req.params.id;
 	const product = await Product.findById(id);
 	if (product) {
-		res.json(product);
+		res.status(200).json(product);
 	} else {
 		res.status(404).json({ message: 'Product not find' });
 	}
