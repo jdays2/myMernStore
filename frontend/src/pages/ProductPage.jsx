@@ -38,7 +38,7 @@ export const ProductPage = () => {
 		setQty(data);
 	};
 
-	useTitle(prod?.name)
+	useTitle(prod?.name);
 
 	return (
 		<>
@@ -76,7 +76,7 @@ export const ProductPage = () => {
 									/>
 								</ListGroup.Item>
 
-								<ListGroup.Item>Price: {prod.price}</ListGroup.Item>
+								<ListGroup.Item>Price: ${prod.price}</ListGroup.Item>
 
 								<ListGroup.Item>Description: {prod.description}</ListGroup.Item>
 							</ListGroup>
