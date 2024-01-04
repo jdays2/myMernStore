@@ -63,7 +63,7 @@ export const ProductEditPage = () => {
 			description,
 		};
 		try {
-			updateProduct(product);
+			await updateProduct(product);
 			toast.success('Order was updated!');
 			refetch();
 		} catch (err) {
