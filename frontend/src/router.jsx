@@ -20,6 +20,7 @@ import { OrderListPage } from './pages/admin/OrderListPage';
 import { ProductListPage } from './pages/admin/ProductListPage';
 import { ProductEditPage } from './pages/admin/ProductEditPage';
 import { UserListPage } from './pages/admin/UserListPage';
+import { UserEditPage } from './pages/admin/UserEditPage';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -90,6 +91,10 @@ export const router = createBrowserRouter(
 				<Route
 					path="/admin/product/:id/edit"
 					element={<ProductEditPage />}
+				/>
+				<Route
+					path="/admin/user/:id/edit"
+					element={<UserEditPage />}
 				/>
 			</Route>
 		</Route>,
