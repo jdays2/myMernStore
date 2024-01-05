@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'react-bootstrap';
 
@@ -12,6 +12,7 @@ import {
 } from '../../redux/slices/usersApiSlice';
 
 export const UserEditPage = () => {
+	const navigate = useNavigate()
 	const { id } = useParams();
 
 	const [name, setName] = useState('');
@@ -42,7 +43,8 @@ export const UserEditPage = () => {
 		try {
 			await updateUser(updatedUser);
 			toast.success('User was updated!');
-			refetch();
+			refetch()
+			navigate('/admin/user-list')
 		} catch (err) {
 			toast.error(err?.data?.message || err?.message);
 		}
@@ -57,7 +59,7 @@ export const UserEditPage = () => {
 			</Link>
 			<FormContainer>
 				<h1>Edit user</h1>
-				{isUpdateLoading ? (
+				{isLoading ? (
 					<Loader />
 				) : error ? (
 					<Message variant="danger">{error}</Message>
@@ -88,6 +90,17 @@ export const UserEditPage = () => {
 								onChange={(e) => {
 									setEmail(e.target.value);
 								}}
+							/>
+						</Form.Group>
+
+						<Form.Group
+							controlId="email"
+							className="my-2">
+							<Form.Check
+								type="checkbox"
+								label="Is Admin"
+								checked={isAdmin}
+								onChange={(e) => setIsAdmin(e.target.checked)}
 							/>
 						</Form.Group>
 

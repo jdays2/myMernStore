@@ -1,21 +1,40 @@
 import React, { useState } from 'react';
-import { useGetUsersQuery } from '../../redux/slices/usersApiSlice';
-import { Loader } from '../../components/Loader';
-import { Message } from '../../components/Message';
 import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { toast } from 'react-toastify';
+
+import {
+	useDeleteUserMutation,
+	useGetUsersQuery,
+} from '../../redux/slices/usersApiSlice';
+import { Loader } from '../../components/Loader';
+import { Message } from '../../components/Message';
 import { ModalConfirmation } from '../ModalConfirmation';
 
 export const UserListPage = () => {
-	const { data: users, isLoading, error } = useGetUsersQuery();
 	const [del, setDel] = useState(false);
+	const [delId, setDelId] = useState();
+
+	const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+	const [deleteUser, { isLoading: isDeleteLoading, error: deleteError }] =
+		useDeleteUserMutation();
 
 	const handleDelClose = () => setDel(false);
 	const handleDelShow = () => setDel(true);
 
-	const deleteHandler = () => {
-		alert('ryaaa deleted!');
+	const deleteHandler = async () => {
+		try {
+			const deleted = await deleteUser(delId);
+			setDelId('');
+			handleDelClose();
+			toast.success(deleted.data.message);
+			refetch();
+		} catch (error) {
+			setDelId('');
+			handleDelClose();
+			toast.error(error?.data?.message || error.message);
+		}
 	};
 
 	return (
@@ -29,6 +48,8 @@ export const UserListPage = () => {
 				buttonText={'Delete'}
 				action={deleteHandler}
 			/>
+
+			{isDeleteLoading && <Loader />}
 
 			{isLoading ? (
 				<Loader />
@@ -81,7 +102,10 @@ export const UserListPage = () => {
 
 									<Button
 										className="d-inline-flex p-1 px-2 gap-1 align-items-center"
-										onClick={handleDelShow}
+										onClick={() => {
+											setDelId(user._id);
+											handleDelShow();
+										}}
 										variant="danger">
 										<FaTrash
 											color="white"

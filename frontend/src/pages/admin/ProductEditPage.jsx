@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'react-bootstrap';
 
@@ -13,6 +13,7 @@ import { Loader } from '../../components/Loader';
 import { FormContainer } from '../../components/FormContainer';
 
 export const ProductEditPage = () => {
+	const navigate = useNavigate()
 	const { id } = useParams();
 	const {
 		data: order,
@@ -66,6 +67,7 @@ export const ProductEditPage = () => {
 			await updateProduct(product);
 			toast.success('Order was updated!');
 			refetch();
+			navigate('/admin/product-list')
 		} catch (err) {
 			toast.error(err?.data?.message || err?.message);
 		}
@@ -92,7 +94,7 @@ export const ProductEditPage = () => {
 			</Link>
 			<FormContainer>
 				<h1>Edit product</h1>
-				{isUpdateLoading ? (
+				{isLoading ? (
 					<Loader />
 				) : error ? (
 					<Message variant="danger">{error}</Message>

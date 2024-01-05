@@ -53,6 +53,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 				url: `${USERS_URL}/${id}`,
 				credentials: 'include',
 			}),
+			keepUnusedDataFor: 5,
 		}),
 		updateUser: builder.mutation({
 			query: (data) => ({
@@ -83,4 +84,5 @@ export const {
 	useGetUsersQuery,
 	useGetUserByIdQuery,
 	useUpdateUserMutation,
+	useDeleteUserMutation
 } = usersApiSlice;
