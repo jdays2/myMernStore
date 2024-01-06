@@ -110,20 +110,21 @@ export const createReview = asyncHandler(async (req, res) => {
 		if (reviews) {
 			res.status(400);
 			throw new Error('Review already exist');
+		} else {
+			
+			const newReview = {
+				user: req.user._id,
+				name: req.user.name,
+				rating: Number(rating),
+				comment,
+			};
+
+			product.reviews.push(newReview);
+
+			const createdReview = await product.save();
+
+			res.status(200).json(createdReview);
 		}
-
-		const newReview = {
-			user: req.user._id,
-			name: req.user.name,
-			rating: Number(rating),
-			comment,
-		};
-
-		product.reviews.push(newReview);
-
-		const createdReview = await product.save();
-
-		res.status(200).json(createdReview);
 	} else {
 		res.status(404);
 		throw new Error('Product is not found');

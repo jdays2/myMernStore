@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
 	Row,
 	Col,
@@ -9,23 +10,43 @@ import {
 	Card,
 	Image,
 	Form,
+	FormGroup,
 } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Rating } from '../components/Rating';
-import { useGetProductDetailsQuery } from '../redux/slices/productsApiSlice';
+import {
+	useGetProductDetailsQuery,
+	useCreateReviewMutation,
+	productsApiSlice,
+} from '../redux/slices/productsApiSlice';
 import { Loader } from '../components/Loader';
 import { Message } from '../components/Message';
-import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
 import useTitle from '../hooks/useTitle';
 
 export const ProductPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
 	const { id } = useParams();
 
-	const { data: prod, isLoading, error } = useGetProductDetailsQuery(id);
+	const { userInfo } = useSelector((state) => state.auth);
+
+	const {
+		data: prod,
+		refetch,
+		isLoading,
+		error,
+	} = useGetProductDetailsQuery(id);
+	const [createReview, { isLoading: isCreatingReview, error: reviewError }] =
+		useCreateReviewMutation();
+
 	const [qty, setQty] = useState(1);
+	const [rating, setRating] = useState(0);
+	const [comment, setComment] = useState('');
+
+	useTitle(prod?.name);
 
 	const addToCardHandler = () => {
 		const item = { ...prod, qty };
@@ -38,7 +59,25 @@ export const ProductPage = () => {
 		setQty(data);
 	};
 
-	useTitle(prod?.name);
+	const createReviewHandler = async (e) => {
+		e.preventDefault();
+		try {
+			const productId = prod._id;
+			const review = {
+				rating,
+				comment,
+			};
+			await createReview({ review, productId }).unwrap();
+			toast.success('Review created');
+			setRating(0)
+			setComment('')
+			refetch();
+		} catch (err) {
+			setRating(0)
+			setComment('')
+			return toast.error(err?.data?.message || err?.error);
+		}
+	};
 
 	return (
 		<>
@@ -134,6 +173,76 @@ export const ProductPage = () => {
 									</ListGroup.Item>
 								</ListGroup>
 							</Card>
+						</Col>
+					</Row>
+					<Row className="review">
+						<Col md={6}>
+							<h2>Reviews</h2>
+							{prod.reviews.length === 0 && <Message>No reviews</Message>}
+							<ListGroup variant="flush">
+								{prod.reviews.map((review) => {
+									return (
+										<ListGroup.Item key={review._id}>
+											<strong>{review.name}</strong>
+											<Rating value={review.rating} />
+											<p>{review.createdAt.substring(0, 10)}</p>
+											<p>{review.comment}</p>
+										</ListGroup.Item>
+									);
+								})}
+								<ListGroup.Item>
+									<h2>Write a customer review</h2>
+									{isCreatingReview && <Loader />}
+
+									{userInfo ? (
+										<Form onSubmit={createReviewHandler}>
+											<Form.Group
+												controlId="rating"
+												className="my-2">
+												<Form.Label>Rating</Form.Label>
+												<Form.Control
+													as="select"
+													value={rating}
+													onChange={(e) => {
+														setRating(e.target.value);
+													}}>
+													<option value={0}>Select...</option>
+													<option value={1}>1 - Poor</option>
+													<option value={2}>2 - Fair</option>
+													<option value={3}>3 - Good</option>
+													<option value={4}>4 - Very good</option>
+													<option value={5}>5 - Excellent</option>
+												</Form.Control>
+											</Form.Group>
+
+											<Form.Group
+												controlId="comment"
+												className="my-2">
+												<Form.Label>Comment</Form.Label>
+												<Form.Control
+													as="textarea"
+													row={3}
+													value={comment}
+													onChange={(e) => {
+														setComment(e.target.value);
+													}}></Form.Control>
+											</Form.Group>
+
+											<Button
+												type="submit"
+												variant="primary"
+												disabled={isCreatingReview}>
+												Create
+											</Button>
+										</Form>
+									) : (
+										<Message>
+											Please <Link to={'/login'}>sign in</Link> to write a
+											review
+										</Message>
+									)}
+								</ListGroup.Item>
+							</ListGroup>
 						</Col>
 					</Row>
 				</>
