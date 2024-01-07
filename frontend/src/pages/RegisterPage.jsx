@@ -9,6 +9,7 @@ import { FormContainer } from '../components/FormContainer.jsx';
 import { useRegisterMutation } from '../redux/slices/usersApiSlice.js';
 import { setCredentials } from '../redux/slices/authSlice.js';
 import { Loader } from '../components/Loader.jsx';
+import useTitle from '../hooks/useTitle.js';
 
 export const RegisterPage = () => {
 	const [email, setEmail] = useState('');
@@ -41,6 +42,8 @@ export const RegisterPage = () => {
 			toast.error(err?.data?.message || err?.error);
 		}
 	};
+
+	useTitle('Register')
 
 	return (
 		<FormContainer>

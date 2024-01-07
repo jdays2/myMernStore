@@ -8,6 +8,7 @@ import { Steps } from '../components/Steps';
 import { useCreateOrderMutation } from '../redux/slices/ordersApiSlice';
 import { clearCartItems } from '../redux/slices/cartSlice';
 import { Message } from '../components/Message';
+import useTitle from '../hooks/useTitle';
 
 export const PlaceOrderPage = () => {
 	const dispatch = useDispatch();
@@ -42,6 +43,8 @@ export const PlaceOrderPage = () => {
 			toast.error(error);
 		}
 	};
+
+	useTitle('Place order')
 
 	return (
 		<>

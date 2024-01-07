@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FormContainer } from '../components/FormContainer';
 import { savePaymentMethod } from '../redux/slices/cartSlice';
 import { Steps } from '../components/Steps';
+import useTitle from '../hooks/useTitle';
 
 export const PaymentPage = () => {
 	const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export const PaymentPage = () => {
 	const { shippingAddress, paymentMethod } = useSelector((state) => state.cart);
 
 	const [method, setMethod] = useState(
-		paymentMethod ? paymentMethod : 'PayPal',
+		paymentMethod || 'PayPal',
 	);
 
 	useEffect(() => {
@@ -27,6 +28,8 @@ export const PaymentPage = () => {
 		dispatch(savePaymentMethod(method));
 		navigate('/place-order');
 	};
+
+	useTitle('Payment')
 
 	return (
 		<FormContainer>

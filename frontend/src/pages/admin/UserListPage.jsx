@@ -10,7 +10,7 @@ import {
 } from '../../redux/slices/usersApiSlice';
 import { Loader } from '../../components/Loader';
 import { Message } from '../../components/Message';
-import { ModalConfirmation } from '../ModalConfirmation';
+import { ModalConfirmation } from '../../components/ModalConfirmation'
 
 export const UserListPage = () => {
 	const [del, setDel] = useState(false);

@@ -13,6 +13,7 @@ import {
 import { useGetOrderByIdQuery } from '../redux/slices/ordersApiSlice';
 import { Message } from '../components/Message';
 import { Loader } from '../components/Loader';
+import useTitle from '../hooks/useTitle';
 
 export const OrderPage = () => {
 	const { id } = useParams();
@@ -97,6 +98,8 @@ export const OrderPage = () => {
 	const onError = (err) => {
 		toast.error(err?.data?.message || err?.message);
 	};
+
+	useTitle('Order')
 
 	return isLoading ? (
 		<Loader />

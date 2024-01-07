@@ -6,12 +6,12 @@ import { Loader } from '../components/Loader.jsx';
 import { Message } from '../components/Message.jsx';
 import useTitle from '../hooks/useTitle.js';
 import { Paginate } from '../components/Paginate.jsx';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import {RatingCarusel } from '../components/RatingCarusel.jsx';
 
 export const HomePage = () => {
 	const { pageNumber, keyword } = useParams();
 
-	console.log(keyword);
 	const { data, error, isLoading } = useGetProductsQuery({
 		pageNumber,
 		keyword,
@@ -20,6 +20,13 @@ export const HomePage = () => {
 	useTitle('Home');
 	return (
 		<>
+			{keyword ? (
+				<Link
+					to="/"
+					className="btn btn-light mb-4">
+					Back
+				</Link>
+			): <RatingCarusel/>}
 			{isLoading ? (
 				<Loader />
 			) : error ? (
@@ -28,20 +35,26 @@ export const HomePage = () => {
 				</Message>
 			) : (
 				<Row>
-					<h2>Latest Products</h2>
-					{data.products.map((item) => {
-						return (
-							<Col
-								key={item._id}
-								sm={12}
-								md={6}
-								lg={4}
-								xl={3}
-								className="d-flex">
-								<Product product={item} />
-							</Col>
-						);
-					})}
+					{keyword ? <h2>Search Result</h2> : <h2>Latest Products</h2>}
+
+					{data.products.length ? (
+						data.products.map((item) => {
+							return (
+								<Col
+									key={item._id}
+									sm={12}
+									md={6}
+									lg={4}
+									xl={3}
+									className="d-flex">
+									<Product product={item} />
+								</Col>
+							);
+						})
+					) : (
+						<Message>Nothing found</Message>
+					)}
+
 					<Paginate
 						keyword={keyword}
 						page={data.page}

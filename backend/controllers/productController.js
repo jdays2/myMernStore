@@ -20,6 +20,15 @@ export const getProduct = asyncHandler(async (req, res) => {
 	res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
+//@desk fetch 3 top products by rating
+//@route GET /api/products/top
+//@access Public
+export const getTopProducts = asyncHandler(async (req, res) => {
+	const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+	res.status(200).json(products);
+});
+
 //@desk fetch one product by id
 //@route GET /api/products/:id
 //@access Public
