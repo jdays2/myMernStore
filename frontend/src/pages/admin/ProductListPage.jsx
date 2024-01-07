@@ -11,19 +11,23 @@ import {
 	useDeleteProductMutation,
 	useGetProductsQuery,
 } from '../../redux/slices/productsApiSlice';
-import { ModalConfirmation } from '../ModalConfirmation';
+import { ModalConfirmation } from '../../components/ModalConfirmation';
 import { Paginate } from '../../components/Paginate';
 import { useParams } from 'react-router-dom';
 
 export const ProductListPage = () => {
-	const { pageNumber } = useParams();
+	const { pageNumber, keyword } = useParams();
+
 	const [createProduct, { isLoading: isCreateLoading }] =
 		useCreateProductMutation();
 
 	const [deleteProduct, { isLoading: isDeleteLoading, error: deleteError }] =
 		useDeleteProductMutation();
 
-	const { data, isLoading, error, refetch } = useGetProductsQuery(pageNumber);
+	const { data, error, refetch, isLoading } = useGetProductsQuery({
+		pageNumber,
+		keyword,
+	});
 
 	const [create, setCreate] = useState(false);
 	const [del, setDel] = useState(false);
@@ -158,7 +162,7 @@ export const ProductListPage = () => {
 							))}
 						</tbody>
 					</Table>
-					<Paginate 
+					<Paginate
 						isAdmin
 						page={data.page}
 						pages={data.pages}

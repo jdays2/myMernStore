@@ -10,6 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { FaTimes } from 'react-icons/fa';
+import useTitle from '../hooks/useTitle';
 
 export const ProfilePage = () => {
 	const [name, setName] = useState('');
@@ -48,6 +49,8 @@ export const ProfilePage = () => {
 			return toast.error(err?.data?.message || err?.error);
 		}
 	};
+
+	useTitle('Profile')
 
 	return (
 		<Row>

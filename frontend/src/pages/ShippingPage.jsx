@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FormContainer } from '../components/FormContainer';
 import { saveShippingAddress } from '../redux/slices/cartSlice';
 import { Steps } from '../components/Steps';
+import useTitle from '../hooks/useTitle';
 
 export const ShippingPage = () => {
 	const { shippingAddress } = useSelector((state) => state.cart);
@@ -24,6 +25,8 @@ export const ShippingPage = () => {
 		
 		navigate('/payment');
 	};
+
+	useTitle('Shipping')
 
 	return (
 		<FormContainer>
