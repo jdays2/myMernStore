@@ -32,6 +32,10 @@ export const router = createBrowserRouter(
 				element={<HomePage />}
 			/>
 			<Route
+				path="/pages/:pageNumber"
+				element={<HomePage />}
+			/>
+			<Route
 				path="/product/:id"
 				element={<ProductPage />}
 			/>
@@ -82,6 +86,10 @@ export const router = createBrowserRouter(
 				/>
 				<Route
 					path="/admin/product-list"
+					element={<ProductListPage />}
+				/>
+				<Route
+					path="/admin/product-list/page/:pageNumber"
 					element={<ProductListPage />}
 				/>
 				<Route

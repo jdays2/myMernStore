@@ -5,8 +5,14 @@ import Product from '../models/productModel.js';
 //@route GET /api/products
 //@access Public
 export const getProduct = asyncHandler(async (req, res) => {
-	const products = await Product.find({});
-	res.status(200).json(products);
+	const pageSize = 8;
+	const page = Number(req.query.pageNumber) || 1;
+	const count = await Product.countDocuments();
+
+	const products = await Product.find({})
+		.limit(pageSize)
+		.skip(pageSize * (page - 1));
+	res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 //@desk fetch one product by id
@@ -111,7 +117,6 @@ export const createReview = asyncHandler(async (req, res) => {
 			res.status(400);
 			throw new Error('Review already exist');
 		} else {
-			
 			const newReview = {
 				user: req.user._id,
 				name: req.user.name,

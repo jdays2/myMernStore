@@ -5,21 +5,27 @@ import { useGetProductsQuery } from '../redux/slices/productsApiSlice.js';
 import { Loader } from '../components/Loader.jsx';
 import { Message } from '../components/Message.jsx';
 import useTitle from '../hooks/useTitle.js';
+import { Paginate } from '../components/Paginate.jsx';
+import { useParams } from 'react-router-dom';
 
 export const HomePage = () => {
-	const { data, error, isLoading } = useGetProductsQuery();
+	const { pageNumber } = useParams();
 
-	useTitle('Home')
+	const { data, error, isLoading } = useGetProductsQuery(pageNumber);
+
+	useTitle('Home');
 	return (
 		<>
-			<h1>Latest Products</h1>
-			<Row>
-				{isLoading ? (
-					<Loader />
-				) : error ? (
-					<Message variant='danger'>{error?.data?.message || error.error}</Message>
-				) : (
-					data.map((item) => {
+			{isLoading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="danger">
+					{error?.data?.message || error.error}
+				</Message>
+			) : (
+				<Row>
+					<h2>Latest Products</h2>
+					{data.products.map((item) => {
 						return (
 							<Col
 								key={item._id}
@@ -31,9 +37,13 @@ export const HomePage = () => {
 								<Product product={item} />
 							</Col>
 						);
-					})
-				)}
-			</Row>
+					})}
+					<Paginate
+						page={data.page}
+						pages={data.pages}
+					/>
+				</Row>
+			)}
 		</>
 	);
 };
