@@ -36,6 +36,14 @@ export const router = createBrowserRouter(
 				element={<HomePage />}
 			/>
 			<Route
+				path="/search/:keyword"
+				element={<HomePage />}
+			/>
+			<Route
+				path="/search/:keyword/pages/:pageNumber"
+				element={<HomePage />}
+			/>
+			<Route
 				path="/product/:id"
 				element={<ProductPage />}
 			/>

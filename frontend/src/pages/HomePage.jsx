@@ -9,9 +9,13 @@ import { Paginate } from '../components/Paginate.jsx';
 import { useParams } from 'react-router-dom';
 
 export const HomePage = () => {
-	const { pageNumber } = useParams();
+	const { pageNumber, keyword } = useParams();
 
-	const { data, error, isLoading } = useGetProductsQuery(pageNumber);
+	console.log(keyword);
+	const { data, error, isLoading } = useGetProductsQuery({
+		pageNumber,
+		keyword,
+	});
 
 	useTitle('Home');
 	return (
@@ -39,6 +43,7 @@ export const HomePage = () => {
 						);
 					})}
 					<Paginate
+						keyword={keyword}
 						page={data.page}
 						pages={data.pages}
 					/>
