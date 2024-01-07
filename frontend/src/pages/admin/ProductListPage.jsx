@@ -12,15 +12,18 @@ import {
 	useGetProductsQuery,
 } from '../../redux/slices/productsApiSlice';
 import { ModalConfirmation } from '../ModalConfirmation';
+import { Paginate } from '../../components/Paginate';
+import { useParams } from 'react-router-dom';
 
 export const ProductListPage = () => {
+	const { pageNumber } = useParams();
 	const [createProduct, { isLoading: isCreateLoading }] =
 		useCreateProductMutation();
 
 	const [deleteProduct, { isLoading: isDeleteLoading, error: deleteError }] =
 		useDeleteProductMutation();
 
-	const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+	const { data, isLoading, error, refetch } = useGetProductsQuery(pageNumber);
 
 	const [create, setCreate] = useState(false);
 	const [del, setDel] = useState(false);
@@ -99,61 +102,68 @@ export const ProductListPage = () => {
 				<Loader />
 			) : error ? (
 				<Message variant="danger">{error}</Message>
-			) : products.length > 0 ? (
-				<Table
-					striped
-					bordered
-					hover
-					responsive
-					className="table-sm">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>NAME</th>
-							<th>PRICE</th>
-							<th>CATEGORY</th>
-							<th>BRAND</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{products.map((product) => (
-							<tr key={product._id}>
-								<td>{product._id}</td>
-								<td>{product.name}</td>
-								<td>${product.price}</td>
-								<td>{product.category}</td>
-								<td>{product.brand}</td>
+			) : data.products.length > 0 ? (
+				<Row>
+					<Table
+						striped
+						bordered
+						hover
+						responsive
+						className="table-sm">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>NAME</th>
+								<th>PRICE</th>
+								<th>CATEGORY</th>
+								<th>BRAND</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{data.products.map((product) => (
+								<tr key={product._id}>
+									<td>{product._id}</td>
+									<td>{product.name}</td>
+									<td>${product.price}</td>
+									<td>{product.category}</td>
+									<td>{product.brand}</td>
 
-								<td className="d-flex gap-2 align-items-center justify-content-center">
-									<LinkContainer to={`/admin/product/${product._id}/edit`}>
+									<td className="d-flex gap-2 align-items-center justify-content-center">
+										<LinkContainer to={`/admin/product/${product._id}/edit`}>
+											<Button
+												className="d-inline-flex p-1 px-2 gap-1 align-items-center"
+												variant="light">
+												<FaEdit
+													color="black"
+													size={14}
+												/>
+											</Button>
+										</LinkContainer>
+
 										<Button
 											className="d-inline-flex p-1 px-2 gap-1 align-items-center"
-											variant="light">
-											<FaEdit
-												color="black"
+											onClick={() => {
+												setDelId(product._id);
+												handleDelShow();
+											}}
+											variant="danger">
+											<FaTrash
+												color="white"
 												size={14}
 											/>
 										</Button>
-									</LinkContainer>
-
-									<Button
-										className="d-inline-flex p-1 px-2 gap-1 align-items-center"
-										onClick={() => {
-											setDelId(product._id);
-											handleDelShow();
-										}}
-										variant="danger">
-										<FaTrash
-											color="white"
-											size={14}
-										/>
-									</Button>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</Table>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+					<Paginate 
+						isAdmin
+						page={data.page}
+						pages={data.pages}
+					/>
+				</Row>
 			) : (
 				<Message>Product list is empty</Message>
 			)}
