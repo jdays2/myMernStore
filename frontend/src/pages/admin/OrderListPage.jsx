@@ -6,9 +6,12 @@ import { useGetOrdersQuery } from '../../redux/slices/ordersApiSlice';
 import { Loader } from '../../components/Loader';
 import { Message } from '../../components/Message';
 import { Button, Table } from 'react-bootstrap';
+import  useTitle  from '../../hooks/useTitle';
 
 export const OrderListPage = () => {
 	const { data: orders, isLoading, error } = useGetOrdersQuery();
+
+	useTitle('Order list')
 	return (
 		<>
 			<h1>Orders</h1>
