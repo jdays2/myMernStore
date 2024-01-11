@@ -46,8 +46,6 @@ export const ProductPage = () => {
 	const [rating, setRating] = useState(0);
 	const [comment, setComment] = useState('');
 
-	useTitle(prod?.name);
-
 	const addToCardHandler = () => {
 		const item = { ...prod, qty };
 		navigate('/cart');
@@ -69,15 +67,17 @@ export const ProductPage = () => {
 			};
 			await createReview({ review, productId }).unwrap();
 			toast.success('Review created');
-			setRating(0)
-			setComment('')
+			setRating(0);
+			setComment('');
 			refetch();
 		} catch (err) {
-			setRating(0)
-			setComment('')
+			setRating(0);
+			setComment('');
 			return toast.error(err?.data?.message || err?.error);
 		}
 	};
+
+	useTitle(prod?.name);
 
 	return (
 		<>

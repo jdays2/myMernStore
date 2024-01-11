@@ -11,9 +11,10 @@ import {
 import { Message } from '../../components/Message';
 import { Loader } from '../../components/Loader';
 import { FormContainer } from '../../components/FormContainer';
+import useTitle from '../../hooks/useTitle';
 
 export const ProductEditPage = () => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const { id } = useParams();
 	const {
 		data: order,
@@ -67,7 +68,7 @@ export const ProductEditPage = () => {
 			await updateProduct(product);
 			toast.success('Order was updated!');
 			refetch();
-			navigate('/admin/product-list')
+			navigate('/admin/product-list');
 		} catch (err) {
 			toast.error(err?.data?.message || err?.message);
 		}
@@ -84,6 +85,8 @@ export const ProductEditPage = () => {
 			toast.error(err?.data?.message || err.error);
 		}
 	};
+
+	useTitle('Product edit')
 
 	return (
 		<>

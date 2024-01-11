@@ -10,6 +10,8 @@ import { useLoginMutation } from '../redux/slices/usersApiSlice.js';
 import { setCredentials } from '../redux/slices/authSlice';
 import { Loader } from '../components/Loader.jsx';
 
+import  useTitle  from '../hooks/useTitle';
+
 export const LoginPage = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -40,6 +42,8 @@ export const LoginPage = () => {
 			toast.error(err?.data?.message || err?.error);
 		}
 	};
+
+	useTitle(`Login`)
 
 	return (
 		<FormContainer>

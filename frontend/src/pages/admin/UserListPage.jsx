@@ -10,7 +10,8 @@ import {
 } from '../../redux/slices/usersApiSlice';
 import { Loader } from '../../components/Loader';
 import { Message } from '../../components/Message';
-import { ModalConfirmation } from '../../components/ModalConfirmation'
+import { ModalConfirmation } from '../../components/ModalConfirmation';
+import  useTitle  from '../../hooks/useTitle';
 
 export const UserListPage = () => {
 	const [del, setDel] = useState(false);
@@ -36,6 +37,8 @@ export const UserListPage = () => {
 			toast.error(error?.data?.message || error.message);
 		}
 	};
+
+	useTitle(`User list`);
 
 	return (
 		<>

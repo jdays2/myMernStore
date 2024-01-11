@@ -10,6 +10,7 @@ import {
 	useGetUserByIdQuery,
 	useUpdateUserMutation,
 } from '../../redux/slices/usersApiSlice';
+import  useTitle from '../../hooks/useTitle';
 
 export const UserEditPage = () => {
 	const navigate = useNavigate()
@@ -49,6 +50,8 @@ export const UserEditPage = () => {
 			toast.error(err?.data?.message || err?.message);
 		}
 	};
+
+	useTitle(`User edit`);
 
 	return (
 		<>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
 import { Loader } from '../../components/Loader';
 import { Message } from '../../components/Message';
@@ -13,7 +14,7 @@ import {
 } from '../../redux/slices/productsApiSlice';
 import { ModalConfirmation } from '../../components/ModalConfirmation';
 import { Paginate } from '../../components/Paginate';
-import { useParams } from 'react-router-dom';
+import useTitle from '../../hooks/useTitle';
 
 export const ProductListPage = () => {
 	const { pageNumber, keyword } = useParams();
@@ -68,6 +69,9 @@ export const ProductListPage = () => {
 			toast.error(error?.data?.message || error.message);
 		}
 	};
+
+	useTitle(`Product list`);
+
 	return (
 		<>
 			<Row>
