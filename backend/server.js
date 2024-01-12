@@ -9,7 +9,6 @@ import connectDB from './config/bd.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 const port = process.env.PORT || 8000;
 
@@ -41,8 +40,7 @@ app.get('/api/config/paypal', (req, res) =>
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
-  console.log(__dirname)
-  app.use('/uploads', express.static(path.join(__dirname,'/uploads')));
+
   app.use(express.static(path.join(__dirname, '/frontend/build')));
 
   app.get('*', (req, res) =>
@@ -50,7 +48,7 @@ if (process.env.NODE_ENV === 'production') {
   );
 } else {
   const __dirname = path.resolve();
-  app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+  
   app.get('/', (req, res) => {
     res.send('API is running....');
   });
