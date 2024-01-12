@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'react-bootstrap';
@@ -26,10 +27,10 @@ export const ProductEditPage = () => {
 	const [updateProduct, { isLoading: isUpdateLoading, error: updateError }] =
 		useUpdateProductMutation();
 
-	const [
-		uploadImage,
-		{ isLoading: isUploadImageLoading, error: uploadImageError },
-	] = useUploadProductImageMutation();
+	// const [
+	// 	uploadImage,
+	// 	{ isLoading: isUploadImageLoading, error: uploadImageError },
+	// ] = useUploadProductImageMutation();
 
 	const [name, setName] = useState('');
 	const [price, setPrice] = useState(0);
@@ -74,19 +75,62 @@ export const ProductEditPage = () => {
 		}
 	};
 
-	const uploadImageHandler = async (e) => {
+	// const uploadImageHandler = async (e) => {
+	// const formData = new FormData();
+	// formData.append('image', e.target.files[0]);
+	// try {
+	// 	const res = await uploadImage(formData).unwrap();
+	// 	toast.success(res.message);
+	// 	setImage(res.image);
+	// } catch (err) {
+	// 	toast.error(err?.data?.message || err.error);
+	// }
+
+	const uploadProductImage = async (e) => {
 		const formData = new FormData();
 		formData.append('image', e.target.files[0]);
+	
 		try {
-			const res = await uploadImage(formData).unwrap();
-			toast.success(res.message);
-			setImage(res.image);
-		} catch (err) {
-			toast.error(err?.data?.message || err.error);
+			const imageFile = e.target.files[0];
+	
+			const imageUrl = await uploadImageToImgBB(imageFile);
+	
+			toast.success('Image uploaded successfully');
+			setImage(imageUrl);
+		} catch (error) {
+			console.error(error);
+			toast.error('Failed to upload image to ImgBB');
 		}
 	};
+	
+	const uploadImageToImgBB = async (imageFile) => {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(imageFile);
+	
+			reader.onload = () => {
+				const imageBase64 = reader.result.split(',')[1];
+	
+				axios.post('https://api.imgbb.com/1/upload', {
+					key: '38b2de02b09d2c6f39f9245bd0d8c839', // Your ImgBB API key
+					image: imageBase64,
+				})
+					.then((res) => {
+						const imageUrl = res.data.data.url;
+						resolve(imageUrl);
+					})
+					.catch((error) => {
+						reject(error);
+					});
+			};
+	
+			reader.onerror = (error) => {
+				reject(error);
+			};
+		});
+	};
 
-	useTitle('Product edit')
+	useTitle('Product edit');
 
 	return (
 		<>
@@ -147,7 +191,7 @@ export const ProductEditPage = () => {
 							<Form.Control
 								type="file"
 								label="Choose file"
-								onChange={uploadImageHandler}></Form.Control>
+								onChange={uploadProductImage}></Form.Control>
 						</Form.Group>
 
 						<Form.Group
