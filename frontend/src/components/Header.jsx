@@ -44,10 +44,11 @@ export const Header = () => {
 					<LinkContainer to="/">
 						<Navbar.Brand>
 							<img
+								className='w-25 p-1	'
 								src={logo}
 								alt="ProShop logo"
 							/>
-							ProShop
+							MERN Shop
 						</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle area-controls="basic-navbar-nav" />

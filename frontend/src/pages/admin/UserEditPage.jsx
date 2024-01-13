@@ -10,10 +10,10 @@ import {
 	useGetUserByIdQuery,
 	useUpdateUserMutation,
 } from '../../redux/slices/usersApiSlice';
-import  useTitle from '../../hooks/useTitle';
+import useTitle from '../../hooks/useTitle';
 
 export const UserEditPage = () => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const { id } = useParams();
 
 	const [name, setName] = useState('');
@@ -32,6 +32,10 @@ export const UserEditPage = () => {
 		}
 	}, [user, isLoading]);
 
+	const goBackHandler = () => {
+		navigate(-1);
+	};
+
 	const submitHandler = async (e) => {
 		e.preventDefault();
 
@@ -44,8 +48,8 @@ export const UserEditPage = () => {
 		try {
 			await updateUser(updatedUser);
 			toast.success('User was updated!');
-			refetch()
-			navigate('/admin/user-list')
+			refetch();
+			navigate('/admin/user-list');
 		} catch (err) {
 			toast.error(err?.data?.message || err?.message);
 		}
@@ -55,11 +59,11 @@ export const UserEditPage = () => {
 
 	return (
 		<>
-			<Link
-				to="/admin/user-list"
+			<Button
+				onClick={goBackHandler}
 				className="btn btn-light my-3">
 				Go back
-			</Link>
+			</Button>
 			<FormContainer>
 				<h1>Edit user</h1>
 				{isLoading ? (

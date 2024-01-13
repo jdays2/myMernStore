@@ -52,6 +52,10 @@ export const ProductEditPage = () => {
 		}
 	}, [order, isLoading]);
 
+	const goBackHandler = () => {
+		navigate(-1);
+	};
+
 	const submitHandler = async (e) => {
 		e.preventDefault();
 
@@ -111,11 +115,11 @@ export const ProductEditPage = () => {
 
 	return (
 		<>
-			<Link
-				to="/admin/product-list"
+			<Button
+				onClick={goBackHandler}
 				className="btn btn-light my-3">
 				Go back
-			</Link>
+			</Button>
 			<FormContainer>
 				<h1>Edit product</h1>
 				{isLoading ? (
