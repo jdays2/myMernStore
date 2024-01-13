@@ -12,7 +12,6 @@
 		"data:import": "node backend/seeder",
 		"data:destroy": "node backend/seeder -d",
 		"build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
-		"build-api": "npm install",
 		"generate-toc": "markdown-toc -i readme.md"
 	},
 	"author": "Mark",
