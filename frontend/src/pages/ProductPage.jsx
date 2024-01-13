@@ -48,7 +48,7 @@ export const ProductPage = () => {
 
 	const addToCardHandler = () => {
 		const item = { ...prod, qty };
-		navigate('/cart');
+		navigate(-1);
 		dispatch(addToCart(item));
 	};
 
@@ -81,11 +81,21 @@ export const ProductPage = () => {
 
 	return (
 		<>
-			<Link
-				to="/"
-				className="btn btn-light my-3">
-				Go Back
-			</Link>
+			<Row className="d-flex p-2">
+				<Link
+					to="/"
+					className="btn btn-light my-1">
+					Go Back
+				</Link>
+
+				{prod && userInfo && userInfo.isAdmin && (
+					<Link
+						to={`/admin/product/${prod._id}/edit`}
+						className="btn btn-light my-1">
+						Edit product
+					</Link>
+				)}
+			</Row>
 			{isLoading ? (
 				<Loader />
 			) : error ? (

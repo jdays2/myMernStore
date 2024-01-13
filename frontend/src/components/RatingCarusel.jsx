@@ -10,11 +10,7 @@ export const RatingCarusel = () => {
 
 	return (
 		<>
-			{isLoading ? (
-				<Loader />
-			) : error ? (
-				<Message variant="danger">{error}</Message>
-			) : (
+			{products && (
 				<Carousel
 					pause="hover"
 					className="bg-primary mb-4">

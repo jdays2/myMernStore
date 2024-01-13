@@ -52,6 +52,10 @@ export const ProductEditPage = () => {
 		}
 	}, [order, isLoading]);
 
+	const goBackHandler = () => {
+		navigate(-1);
+	};
+
 	const submitHandler = async (e) => {
 		e.preventDefault();
 
@@ -75,70 +79,47 @@ export const ProductEditPage = () => {
 		}
 	};
 
-	// const uploadImageHandler = async (e) => {
-	// const formData = new FormData();
-	// formData.append('image', e.target.files[0]);
-	// try {
-	// 	const res = await uploadImage(formData).unwrap();
-	// 	toast.success(res.message);
-	// 	setImage(res.image);
-	// } catch (err) {
-	// 	toast.error(err?.data?.message || err.error);
-	// }
-
 	const uploadProductImage = async (e) => {
 		const formData = new FormData();
 		formData.append('image', e.target.files[0]);
-	
+
 		try {
-			const imageFile = e.target.files[0];
-	
-			const imageUrl = await uploadImageToImgBB(imageFile);
-	
-			toast.success('Image uploaded successfully');
+			const imageUrl = await uploadImageToImgBB(formData);
+
 			setImage(imageUrl);
+			toast.success('Image uploaded successfully');
 		} catch (error) {
 			console.error(error);
 			toast.error('Failed to upload image to ImgBB');
 		}
 	};
-	
-	const uploadImageToImgBB = async (imageFile) => {
-		return new Promise((resolve, reject) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(imageFile);
-	
-			reader.onload = () => {
-				const imageBase64 = reader.result.split(',')[1];
-	
-				axios.post('https://api.imgbb.com/1/upload', {
+
+	const uploadImageToImgBB = async (formData) => {
+		try {
+			const res = await axios.post('https://api.imgbb.com/1/upload', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+				params: {
 					key: '38b2de02b09d2c6f39f9245bd0d8c839', // Your ImgBB API key
-					image: imageBase64,
-				})
-					.then((res) => {
-						const imageUrl = res.data.data.url;
-						resolve(imageUrl);
-					})
-					.catch((error) => {
-						reject(error);
-					});
-			};
-	
-			reader.onerror = (error) => {
-				reject(error);
-			};
-		});
+				},
+			});
+
+			return res.data.data.url;
+		} catch (error) {
+			throw error;
+		}
 	};
 
 	useTitle('Product edit');
 
 	return (
 		<>
-			<Link
-				to="/admin/product-list"
+			<Button
+				onClick={goBackHandler}
 				className="btn btn-light my-3">
 				Go back
-			</Link>
+			</Button>
 			<FormContainer>
 				<h1>Edit product</h1>
 				{isLoading ? (
@@ -204,20 +185,6 @@ export const ProductEditPage = () => {
 								value={brand}
 								onChange={(e) => {
 									setBrand(e.target.value);
-								}}
-							/>
-						</Form.Group>
-
-						<Form.Group
-							controlId="countInStock"
-							className="my-2">
-							<Form.Label>Count In Stock:</Form.Label>
-							<Form.Control
-								type="number"
-								placeholder="Enter count in stock"
-								value={countInStock}
-								onChange={(e) => {
-									setCountInStock(e.target.value);
 								}}
 							/>
 						</Form.Group>

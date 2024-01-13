@@ -123,9 +123,7 @@ export const createReview = asyncHandler(async (req, res) => {
 	const product = await Product.findById(id);
 
 	if (product) {
-		const reviews = product.reviews.find(
-			(p) => toString(p.user) === toString(req.user._id),
-		);
+		const reviews = product.reviews.find((p) => p.user.equals(req.user._id));
 
 		if (reviews) {
 			res.status(400);
@@ -139,6 +137,15 @@ export const createReview = asyncHandler(async (req, res) => {
 			};
 
 			product.reviews.push(newReview);
+
+			const countReview = Number(product.reviews.length);
+
+			const valueReview = Number(
+				product.reviews.reduce((a, x) => x.rating + a, 0) / countReview,
+			);
+
+			product.numReviews = countReview;
+			product.rating = valueReview;
 
 			const createdReview = await product.save();
 
