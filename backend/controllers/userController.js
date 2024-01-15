@@ -11,20 +11,14 @@ const authUser = asyncHandler(async (req, res) => {
 	const user = await User.findOne({ email });
 
 	if (user && (await user.matchPassword(password))) {
-		try {
-			createToken(res, user._id);
+		createToken(res, user._id);
 
-			// Далее ваш код, если все прошло успешно после создания токена
-			res.status(200).json({
-				_id: user._id,
-				name: user.name,
-				email: user.email,
-				isAdmin: user.isAdmin,
-			});
-		} catch (tokenError) {
-			console.error('Error in creating token:', tokenError);
-			res.status(500).json({ error: 'Error creating token' });
-		}
+		res.status(200).json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			isAdmin: user.isAdmin,
+		});
 	} else {
 		res.status(401);
 		throw new Error('Invalid email or password');
