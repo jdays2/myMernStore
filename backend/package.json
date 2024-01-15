@@ -5,8 +5,7 @@
 	"description": "Ecommerce application built with the MERN stack",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js",
-		"build": "npm install"
+		"build": "npm i && node server.js"
 	},
 	"author": "Mark Jdays",
 	"license": "MIT",
