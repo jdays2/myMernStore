@@ -7,8 +7,8 @@ import {
 	getProductByID,
 	getTopProducts,
 	updateProduct,
-} from '../controllers/productController.js';
-import { protect, admin } from '../middleware/authHandler.js';
+} from '../controllers/productController.cjs';
+import { protect, admin } from '../middleware/authHandler.cjs';
 
 const router = express.Router();
 
