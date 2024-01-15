@@ -10,7 +10,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
-const port = process.env.PORT || 8000;
+const port = 3001;
 
 connectDB(); //подключаемся в bd
 
