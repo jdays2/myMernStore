@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 const createToken = (res, userId) => {
 	console.log('Entering createToken function');
 	
