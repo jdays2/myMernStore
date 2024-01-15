@@ -1,5 +1,5 @@
-import asyncHandler from '../middleware/asyncHandler.js';
-import Order from '../models/orderModel.js';
+import asyncHandler from '../middleware/asyncHandler.cjs';
+import Order from '../models/orderModel.cjs';
 
 //@desk    Create new order
 //@route   POST /api/orders
