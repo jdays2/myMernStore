@@ -1,5 +1,5 @@
-import asyncHandler from '../middleware/asyncHandler.cjs';
-import Product from '../models/productModel.cjs';
+import asyncHandler from '../middleware/asyncHandler.js';
+import Product from '../models/productModel.js';
 
 //@desk fetch all products
 //@route GET /api/products

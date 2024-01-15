@@ -5,7 +5,7 @@ dotenv.config();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import connectDB from './config/bd.cjs';
+import connectDB from './config/bd.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
