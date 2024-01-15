@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api' : '/api';
+export const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api' : 'https://study-mer-nstore.vercel.app/api';
 
 export const PRODUCTS_URL = '/products';
 export const USERS_URL = '/users';
