@@ -8,11 +8,11 @@ const createToken = (res, userId) => {
 
 		// Set JWT as an HTTP-Only cookie
 		res.cookie('jwt', token, {
-			httpOnly: false,
-			secure: false,
+			httpOnly: true,
+			secure: true,
 			sameSite: 'None',
 			maxAge: 30 * 24 * 60 * 60 * 1000,
-		});
+	});
 	} catch (error) {
 		console.error('Error creating token:', error);
 		// Дополнительные действия по логированию ошибки или отправке уведомления
