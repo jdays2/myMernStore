@@ -1,6 +1,6 @@
 ### Deploy вы можете посмотрeть [тут](https://study-mer-nstore-8exs.vercel.app/)
 
-![[Screenshot_21.png]]
+![[main-page.png]]
 
 ---
 ## Оглавление
