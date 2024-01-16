@@ -1,6 +1,6 @@
 ### Deploy вы можете посмотрeть [тут](https://study-mer-nstore-8exs.vercel.app/)
 
-![[main-page.png]]
+![main-page](https://github.com/jdays2/myMernStore/blob/dev2/main-page.png)
 
 ---
 ## Оглавление
