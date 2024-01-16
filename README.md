@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+### Deploy вы можете посмотрeть [тут](https://study-mer-nstore-8exs.vercel.app/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![[Screenshot_21.png]]
 
-## Available Scripts
+---
+## Оглавление
+1. [О проекте](#Описание)
+2. [Технологии](#Технологии)
+3. [Функционал](#Функционал)
+4. [Данные авторизации и оплаты](#Доступ)
 
-In the project directory, you can run:
+---
+## Описание
 
-### `npm start`
+ **MERN Shop** - __это полнофункциональное фулстак MERN приложение. Полностью адаптивно благодаря использованию гибкой ui библиотекe Bootstrap. Представляет собой магазин различных товаров, которые можно добавить в корзину, заказать и даже оплатить через интегрированный PAYPAL. Доступна регистрация и авторизация. Все свои заказы всегда можно просмотреть, а личные данные отредактировать. Еще больше функций открывается от лица администратора. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
+## Технологии
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Перечень библиотек с помощью которых был реализован этот проект. 
 
-### `npm test`
+- **React** (фреймворк/библиотека для frontend)
+- **Express** (фреймворк для работы с серверными запросами)
+- **Node** (платформа для использования js на стороне сервера)
+- **MongoDB** (библиотека Mongoose для работы с базой данных MongoDB)
+- **React-Bootsrap** (ui библиотека React-компонентов)
+- **Redux RTK Query** (библиотека для создания сервисов для запросов на сервер )
+- **Axios** (библиотека для работы с http запросами)
+- **React-toastify** (ui библиотека для вывода уведомлений)
+- **IMGBB** (api позволяющая загружать и хранить изображения в своей базе)
+- **Vite** (инструмент для настройки среды разработки)
+- **JWT** (библиотека для работы с шифрованием куков авторизации)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- *и множество других мелких вспомогательных инструментов
 
-### `npm run build`
+---
+## Функционал
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Доступные возможности и страницы для обычного юзера и администратора разнятся. 
+#### Стандартный набор возможностей:
+- Полнофункциональная корзина для покупок
+- Подробный просмотр карточки товара
+- Возможность оставить отзывом с рейтинговой оценкой
+- Авторизация, Регистрация
+- Карусель из 3 лучших товаров (обновляется динамически)
+- Возможность искать товары по названию 
+- Создание заказа, заполнение данных доставки
+- Возможна оплата как кредитной картой, так и интегрированным PAYPAL
+#### Набор возможности от лица администратора:
+- Подробный просмотр списка товаров
+- Создание, редактирование и удаление товаров
+- Подробный просмотр списка пользователей
+- Удаление или редактирование профиля пользователя
+- Возможность выделить пользователю права администратора
+- Подробный список заказов
+- Возможность отметить заказ как доставленный
+- И другие ui дополнения доступные только администратору
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
+## Доступ
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+##### **Для входа в аккаунт от лица пользователя:**
+   _Вы можете создать собственный аккаунт, не обязательно использовать предложенный
+  *Login:* **(test@test.test)**
+  *Password:* **(testtest)**
+##### **Для входа в аккаунт от лица администратора:**
+  *Login:* **(admin@gmail.com)**
+  *Password:* **(123456)**
+##### **Данные авторизации при оплате через PAYPAL:**
+   _Используется тестовый профиль из песочницы paypal.
+  *Login:* **(sb-jhoal28824393@personal.example.com)**
+  *Password:* **(7l34U3t&)**
