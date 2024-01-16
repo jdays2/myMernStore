@@ -15,7 +15,6 @@ const createToken = (res, userId) => {
 	});
 	} catch (error) {
 		console.error('Error creating token:', error);
-		// Дополнительные действия по логированию ошибки или отправке уведомления
 	}
 };
 
