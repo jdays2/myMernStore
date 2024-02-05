@@ -22,8 +22,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 		getProductDetails: builder.query({
 			query: (id) => ({
 				url: `${PRODUCTS_URL}/${id}`,
-				credentials: 'include',
 			}),
+			credentials: 'include',
 			keepUnusedDataFor: 5,
 		}),
 
